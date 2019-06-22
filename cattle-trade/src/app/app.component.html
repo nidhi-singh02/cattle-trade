@@ -1,0 +1,95 @@
+<!--
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <p class="network-name">cattle-trade@0.0.1.bna</p>
+        <p class="navbar-brand">cattle-trade</p>
+      </div>
+      <ul class="nav navbar-nav">
+        <li class="dropdown active">
+            <a class="dropdown-toggle" data-toggle="dropdown">Assets</a>
+            <ul class="dropdown-menu scrollable-menu">
+              
+              <li><a [routerLink]="['/Cattle']">Cattle</a></li>
+              
+              <li><a [routerLink]="['/Milk']">Milk</a></li>
+              
+              <li><a [routerLink]="['/Auction']">Auction</a></li>
+              
+            </ul>
+        </li>
+        <li class="dropdown active">
+          <a class="dropdown-toggle" data-toggle="dropdown">Participants</a>
+          <ul class="dropdown-menu scrollable-menu">
+            
+            <li><a [routerLink]="['/Farmer']">Farmer</a></li>
+            
+            <li><a [routerLink]="['/DairyComapany']">DairyComapany</a></li>
+            
+            <li><a [routerLink]="['/Veterinarians']">Veterinarians</a></li>
+            
+            <li><a [routerLink]="['/Regulator']">Regulator</a></li>
+            
+          </ul>
+      </li>
+      <li class="dropdown active">
+        <a class="dropdown-toggle" data-toggle="dropdown">Transactions</a>
+        <ul class="dropdown-menu scrollable-menu">
+          
+          <li><a [routerLink]="['/RegisterFarmer']">RegisterFarmer</a></li>
+          
+          <li><a [routerLink]="['/Login']">Login</a></li>
+          
+          <li><a [routerLink]="['/RegisterCattle']">RegisterCattle</a></li>
+          
+          <li><a [routerLink]="['/BuyCattle']">BuyCattle</a></li>
+          
+          <li><a [routerLink]="['/EnterAuctionCattle']">EnterAuctionCattle</a></li>
+          
+          <li><a [routerLink]="['/CloseAuction']">CloseAuction</a></li>
+          
+          <li><a [routerLink]="['/OpenCattleAuction']">OpenCattleAuction</a></li>
+          
+          <li><a [routerLink]="['/SellMilk']">SellMilk</a></li>
+          
+          <li><a [routerLink]="['/UploadHealthCertificate']">UploadHealthCertificate</a></li>
+          
+          <li><a [routerLink]="['/UpdateCattleInformation']">UpdateCattleInformation</a></li>
+          
+          <li><a [routerLink]="['/OpenMilkAuction']">OpenMilkAuction</a></li>
+          
+          <li><a [routerLink]="['/BuyMilk']">BuyMilk</a></li>
+          
+          <li><a [routerLink]="['/UpdateDairyInformation']">UpdateDairyInformation</a></li>
+          
+          <li><a [routerLink]="['/ApproveCattleCertificate']">ApproveCattleCertificate</a></li>
+          
+          <li><a [routerLink]="['/UpdateVeterinariansInformation']">UpdateVeterinariansInformation</a></li>
+          
+          <li><a [routerLink]="['/ApproveFarmer']">ApproveFarmer</a></li>
+          
+          <li><a [routerLink]="['/ApproveDairyCompany']">ApproveDairyCompany</a></li>
+          
+          <li><a [routerLink]="['/ApproveVeterinarians']">ApproveVeterinarians</a></li>
+          
+          <li><a [routerLink]="['/SetupDemo']">SetupDemo</a></li>
+          
+        </ul>
+    </li>
+      </ul>
+    </div>
+  </nav>
+  
+  <router-outlet></router-outlet>

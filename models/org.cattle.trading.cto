@@ -1,0 +1,301 @@
+/*Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+namespace org.cattle.trading
+
+
+/**
+ * The trade type for an animal
+ */
+enum TradeType {
+  o BUY
+  o SELL
+ 
+}
+
+enum TradeStatus {
+  o TRADE_OFF
+  o AVAILABLE
+  o IN_TRADE
+  o SOLD
+}
+
+enum HCStatus{
+  o NOT_UPLOADED
+  o UPLOADED
+  o PENDING_APPROVAL
+  o APPROVED
+
+}
+
+
+enum AuctionStatus{
+  o OPEN
+  o IN_PROCESS
+  o CLOSED
+  o SOLD
+}
+
+enum AuctionItem{
+  o CATTLE
+  o MILK
+}
+
+enum AccountApprovalStatus{
+  o APPROVED
+  o NOT_APPROVED
+}
+
+/**
+ * An Cattle asset, which is related to a Field
+ */
+asset Cattle identified by cattleId {
+    o String cattleId
+    o String dateBirth
+    o String parentCattle optional
+    o String[] childCattles optional
+    o String dateDeath optional
+    o String breed
+    o Double milkCapacity
+    o HCStatus HCStatus
+    o String HC
+    o TradeType tradeType
+    o TradeStatus tradeStatus
+    --> Farmer owner
+  /*  --> Veterinarians doctor*/
+}
+
+asset Milk identified by milkId{
+  o String milkId
+  --> Cattle cattle
+}
+
+asset Auction identified by aucId{
+  o String aucId
+  o AuctionItem aucItem
+  o AuctionStatus aucStatus
+  o Integer noOfBuyers default = 0
+  o String aucBreed
+  o Double basePrice
+  o Double[] aucPrice optional
+  o Double finalPrice optional
+  o Integer quantity default = 1
+  o String[] itemId
+  --> Farmer owner
+  --> Farmer[] listOfFarmers optional
+  --> Cattle cattle optional
+  --> Milk milk optional
+}
+
+
+
+
+/**
+ * A Farmer participant
+ */
+abstract participant User identified by userId {
+  o String userId
+  o String emailId
+  o String passwrd
+  o AccountApprovalStatus AccStatus default = "NOT_APPROVED"
+  o String firstName
+  o String lastName
+  o String address1
+  o String address2
+  o String county
+  o String postcode
+}
+
+/**
+ * A Farmer participant
+ */
+participant Farmer extends User {
+  --> Cattle[] allCattle optional
+}
+
+
+/**
+ * A Dairy company participant
+ */
+participant DairyComapany extends User {
+}
+
+
+/**
+ * A Veterinarians participant
+ */
+participant Veterinarians extends User {
+}
+
+
+
+/**
+ * A Regulator participant
+ */
+participant Regulator extends User {
+}
+
+
+/**
+ * An abstract transaction type for animal movements
+ */
+abstract transaction FarmerDetails {
+  o String[] logs optional
+    --> Farmer farmer
+  --> Cattle cattle optional
+  --> Milk milk optional
+}
+
+  
+  transaction RegisterFarmer {
+  o String emailId
+  o String passwrd
+   o String firstName
+  o String lastName
+  o String address1
+  o String address2
+  o String county
+  o String postcode
+   
+}
+
+@returns(String)
+  transaction Login{  
+   o String userId
+   o String passwrd
+   o String userType
+}
+  
+  
+  
+  
+/* Transaction for Farmers */
+transaction RegisterCattle {
+  --> Farmer ownerFarmer
+ 
+  o String dateBirth
+  o String breed
+  o Double milkCapacity
+  o HCStatus HCStatus
+  o TradeStatus tradeStatus
+   
+}
+
+@returns(Auction[])
+transaction BuyCattle{
+  o Integer f_NoofCattles
+  o String f_breed
+  o Integer f_budget
+ 
+}
+ 
+@returns(String)
+transaction EnterAuctionCattle {
+  --> Auction auction
+  --> Farmer buyerFarmer
+  --> Cattle cattle
+  o Integer price
+}
+ 
+@returns(String)
+transaction  CloseAuction{
+  --> Auction auction
+  --> Farmer farmer
+  --> Cattle cattle
+ 
+}
+ 
+@returns(Auction)
+transaction OpenCattleAuction {
+  --> Farmer farmer
+  --> Cattle[] cattle
+  o Double price
+  o String breed
+}
+
+
+transaction SellMilk extends FarmerDetails{
+}
+
+transaction UploadHealthCertificate{
+  --> Cattle cattle
+}
+
+transaction UpdateCattleInformation{
+ --> Cattle cattle
+    o String dateBirth
+    o String breed
+    o Double milkCapacity
+}
+  
+@returns(Auction)
+transaction OpenMilkAuction {
+  --> Farmer farmer
+  --> Cattle[] cattle
+  o Double price
+  o String breed
+  o Double milkQuantity
+}
+
+  
+
+/* Transaction for Dairy Companies */
+
+transaction BuyMilk extends FarmerDetails{
+}
+
+transaction UpdateDairyInformation{
+}
+
+/* Transaction for Veterinarians */
+
+transaction ApproveCattleCertificate{
+}
+
+transaction UpdateVeterinariansInformation{
+}
+
+/* Transaction for Government Official */
+transaction ApproveFarmer{
+}
+
+transaction ApproveDairyCompany{
+ 
+}
+
+transaction ApproveVeterinarians{
+}
+
+
+transaction SetupDemo  {
+}
+
+
+/**
+ * EVENTS
+ */
+
+event AssetRegistered {
+  --> Cattle cattle
+}
+
+event AssetProcessed {
+  --> Cattle cattle
+  o Double transferGHG
+}
+
+event AssetTransferred {
+  --> Cattle cattle
+  o Double endGHG
+}
+
